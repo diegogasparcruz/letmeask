@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, push, set, get, child } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,4 +18,19 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const database = getDatabase(app);
 
-export { auth, provider, signInWithPopup, database };
+const createTable = <T>(tableName: string, data: T) => {
+  const listRef = ref(database, tableName);
+  const newRef = push(listRef);
+
+  set(newRef, data);
+
+  return { key: newRef.key };
+};
+
+const getById = async (tableName: string, id: string) => {
+  const snapshot = await get(child(ref(database), `${tableName}/${id}`));
+
+  return snapshot;
+};
+
+export { auth, provider, signInWithPopup, createTable, getById };

@@ -36,7 +36,7 @@ This project was developed using cutting edge front-end technologies.
 **Clone the project and access the folder**
 
 ```bash
-$ git clone https://github.com/diegogasparcruz/moveit.git && cd moveit
+$ git clone https://github.com/diegogasparcruz/letmeask.git && cd letmeask
 ```
 
 **Follow the steps below**

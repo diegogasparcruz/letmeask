@@ -8,7 +8,7 @@ import "../styles/auth.scss";
 import { Button } from "../components/Button";
 import { useAuth } from "../hooks/useAuth";
 import { FormEvent, useState } from "react";
-import { getById } from "../services/firebase";
+import { database } from "../services/firebase";
 
 export function Home() {
   const navigate = useNavigate();
@@ -30,10 +30,10 @@ export function Home() {
       return;
     }
 
-    const roomRef = await getById("rooms", roomCode);
+    const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
     if (!roomRef.exists()) {
-      alert("Room does note exists.");
+      alert("Room does not exists.");
       return;
     }
 

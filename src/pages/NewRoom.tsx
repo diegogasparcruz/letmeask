@@ -6,8 +6,8 @@ import logoImg from "../assets/images/logo.svg";
 import "../styles/auth.scss";
 import { Button } from "../components/Button";
 import { FormEvent, useState } from "react";
-import { createTable } from "../services/firebase";
 import { useAuth } from "../hooks/useAuth";
+import { database } from "../services/firebase";
 
 export function NewRoom() {
   const { user } = useAuth();
@@ -22,12 +22,14 @@ export function NewRoom() {
       return;
     }
 
-    const { key: idRoom } = createTable("rooms", {
+    const roomRef = database.ref("rooms");
+
+    const firebaseRoom = await roomRef.push({
       title: newRoom,
       authorId: user?.id,
     });
 
-    navigate(`/rooms/${idRoom}`);
+    navigate(`/rooms/${firebaseRoom.key}`);
   }
 
   return (
